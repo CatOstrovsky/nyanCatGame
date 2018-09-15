@@ -12,7 +12,7 @@ var config = {
         impact: {
             gravity: 0,
             maxVelocity: 800,
-            debug: true
+            // debug: true
         }
     }
 };

@@ -13,7 +13,7 @@ class Enemy {
 
 	addToScene() {
 		this.item = this.ctx.impact.add.image(config.width-50, (Math.random() * (config.height-100)) + 50, 'ponchik')
-		.setVelocity(-1 * Math.random() * 150, Math.random()*20)
+		.setVelocity(-150, 0)
 		.setActiveCollision();
 
 		this.item.name = "enemy";
@@ -25,7 +25,8 @@ class Enemy {
 	}
 
 	update() {
-		if(this.item.alpha == 0 || this.item.x < this.item.width*-1)
+		this.item.angle -= 5;
+		if(this.item.alpha == 0 || this.item.x < 60)
 			this.destroy();
 	}
 }

@@ -1,5 +1,8 @@
-import config from '../config.js';
+import Config from '../config.js';
 import Enemy from '../enemy.js';
+import BulletManager from '../bulletManager.js';
+import Boom from '../boom.js';
+import RainbowManager from '../rainbowManager.js';
 
 var loaderSceneConfig = {
     key: 'game',
@@ -19,53 +22,49 @@ function bootLoader ()
 
 }
 
-
 /**
  * Событие после загрузки
  * @return void
  */
 function bootCreate ()
-{   
+{     
     this.impact.world.setBounds();
-    this.background = this.add.tileSprite(config.center.x, config.center.y, config.width, config.height, 'background');
+    this.level = 1;
+    this.stage = 1;
+    this.time = 0;
 
-    this.cat = this.add.tileSprite(75, config.center.y, 250, 150, 'cat').setOrigin(.5,.5).setScale(.5);
-    this.cat = this.impact.add.body(200, 100).setGameObject(this.cat).setActiveCollision().setBounce(1).setMaxVelocity(150);
+    this.background = this.add.tileSprite(Config.center.x, Config.center.y, Config.width, Config.height, 'background');
+
+    this.catSprite = this.add.tileSprite(75, Config.center.y, 250, 150, 'cat').setOrigin(.5,.5).setScale(.5);
+    this.cat = this.impact.add.body(200, 100).setGameObject(this.catSprite).setActiveCollision().setBounce(1).setMaxVelocity(200);
     this.cat.name = "cat";
 
-    this.cursors = this.input.keyboard.createCursorKeys();
+    this.add.text(Config.width / 2, 20, `Level ${this.level} - ${this.stage}`, {fontSize:"27px"}).setOrigin(.5, 0);
+
+    for (var i = 3; i >= 1; i--) {
+        this.add.image(i*40, 20, 'heart').setOrigin(.5, 0).setScale(1.2);
+    }
+
+    let timer = this.add.text(Config.width - 40, 20, `0:00`, {fontSize:"27px"}).setOrigin(1, 0);
+    this.add.image(timer.x - timer.width - 15, 17, 'alarm').setOrigin(1, 0).setScale(1.2);
+
+    setInterval(() => {
+      this.time += 1;
+      let min = parseInt(this.time/60),
+      seconds = this.time - (min * 60);
+      if(seconds < 10)
+        seconds = `0${seconds}`;
+
+      timer.setText(`${min}:${seconds}`)
+    }, 1000)
+
+
+    this.BulletManager = new BulletManager(this);
+    this.RainbowManager = new RainbowManager(this);
     this.CatController = new catController(this);
+    this.cursors = this.input.keyboard.createCursorKeys();
 
     enemies.push(new Enemy(this));
-
-    this.cat.setCollideCallback(collideCallback, this);
-
-    let conf = {
-        key: 'explode',
-        frames: this.anims.generateFrameNumbers('boom', { start: 0, end: 25, first: 25 }),
-        frameRate: 20
-    };
-    this.anims.create(conf);
-}
-
-function addBoom( x, y ) {
-    var boom = this.add.sprite(x, y, 'boom');
-    boom.anims.play('explode');
-}
-
-function addBullet(ctx) {
-    // body...
-}
-
-
-function collideCallback(Cat, B) {
-    if(B.gameObject && B.gameObject.hasOwnProperty("name") && typeof(B.gameObject.name) == "string"){
-        if(B.gameObject.name == "enemy") {
-            addBoom.call(this,B.gameObject.x, B.gameObject.y);
-            B.gameObject.alpha = 0;
-            B.gameObject.destroy();
-        }
-    }
 }
 
 function catController(ctx) {
@@ -83,6 +82,15 @@ function catController(ctx) {
     this.moveDown = () => {
         ctx.cat.setVelocityY(ctx.cat.vel.y + 15);
     }
+    this.fireBullet = () => {
+        // Evil eyes
+        ctx.catSprite.setTilePosition(-250, 0);
+        setTimeout(() => {
+          ctx.catSprite.setTilePosition(0, 0);
+        }, 100)
+
+        ctx.BulletManager.fire(ctx.cat.body.pos.x + ctx.cat.size.x, ctx.cat.body.pos.y + (ctx.cat.size.y / 2));
+    }
 
     this.cursorManager = () => {
         if (ctx.cursors.left.isDown)
@@ -96,6 +104,9 @@ function catController(ctx) {
         
         if (ctx.cursors.down.isDown)
             this.moveDown();
+
+        if (ctx.cursors.space.isDown)
+            this.fireBullet();
     }
    
     return this;     
@@ -116,8 +127,11 @@ function update() {
         enemies.push(new Enemy(this))
     }
 
-    this.background.setTilePosition(this.background.tilePositionX + 2, 0);
+    this.background.setTilePosition(this.background.tilePositionX + 5, 0);
     this.CatController.cursorManager();
+
+    this.BulletManager.update();
+    this.RainbowManager.update();
     
 }
 
