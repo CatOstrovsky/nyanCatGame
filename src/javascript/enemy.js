@@ -12,22 +12,30 @@ class Enemy {
 	}
 
 	addToScene() {
-		this.item = this.ctx.impact.add.image(config.width-50, (Math.random() * (config.height-100)) + 50, 'ponchik')
-		.setVelocity(-150, 0)
-		.setActiveCollision();
+		let hardLine = this.ctx.LevelManager.level*10 + this.ctx.LevelManager.stage,
+		item = this.ctx.add.image(-100, -100, 'ponchik');
+		item.name = "enemy";
+		this.item = this.ctx.impact.add.body(config.width-100, (Math.random() * (config.height-100)) + 50).setGameObject(item)
+					.setVelocity(-150 * (hardLine/10), 0)
+					.setActiveCollision();
 
-		this.item.name = "enemy";
 	}
 
-	destroy() {		
-		this.item.destroy();
+	destroy() {
+		this.item.body.gameObject.destroy();
+		this.item.body.destroy();
 		this.active = false;
 	}
 
 	update() {
-		this.item.angle -= 5;
-		if(this.item.alpha == 0 || this.item.x < 60)
+		this.item.body.gameObject.angle -= 5;
+		if(this.item.body.gameObject.alpha == 0 || this.item.body.pos.x < 60){
+			// If lost of world - remove heart
+			if(this.item.body.pos.x < 60)
+				this.ctx.LifeManager.removeHeart();
+
 			this.destroy();
+		}
 	}
 }
 

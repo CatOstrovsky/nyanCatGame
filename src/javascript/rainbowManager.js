@@ -13,7 +13,7 @@ class Rainbow {
 	}
 
 	update() {
-		this.element.x -= 2;
+		this.element.x -= 10;
 		if(this.element.x < -15) {
 			this.destroy();
 		}
@@ -25,6 +25,7 @@ class RainbowManager {
 		this.ctx = ctx;
 		this.rainbows = [];
 		this.add();
+		this.lasAdd = new Date().getTime();
 	}
 
 	add() {
@@ -43,7 +44,10 @@ class RainbowManager {
 			}
 		}
 
-		this.add();
+		if(this.lasAdd+10 < new Date().getTime()){
+			this.lasAdd = new Date().getTime();
+			this.add();
+		}
 	}
 }
 

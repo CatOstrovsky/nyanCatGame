@@ -1,11 +1,11 @@
 var config = {
     type: Phaser.AUTO,
     parent: 'game',
-    width: 850,
-    height: 550,
+    width: window.innerWidth,
+    height: window.innerHeight,
     center: {
-    	x: 425,
-    	y: 275
+    	x: window.innerWidth/2,
+    	y: window.innerHeight/2
     },
     physics: {
         default: 'impact',

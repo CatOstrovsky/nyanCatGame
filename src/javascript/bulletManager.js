@@ -2,7 +2,7 @@ import Boom from './boom.js';
 import Config from './config.js';
 
 class Bullet {
-	constructor(ctx, x = 0, y = 0, speed = 400) {
+	constructor(ctx, x = 0, y = 0, speed = 900) {
 		this.ctx = ctx;
 
 		this.element =  this.ctx.add.sprite(x, y, 'bullet').play('fire');
