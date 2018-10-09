@@ -1,6 +1,7 @@
 # Nyan Cat game
 
 This is game "Nyan Cat". Based on Phaser 3!
+[!!!DEMO HERE!!!](https://demo.web-panda.ru/nyan-cat/)
 
 ### Requirements
 
