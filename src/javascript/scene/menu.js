@@ -8,7 +8,8 @@ var loaderSceneConfig = {
     create: bootCreate,
     update: update
 };
-let direction = 1;
+let direction = 1,
+locked = true;
 
 /**
  * Предвариетльная загрузка и кеширование ресурсов
@@ -40,9 +41,16 @@ function bootCreate ()
         if(event.code == "Enter")
             this.scene.start('game');      
     });
+
+    locked = true
+    setTimeout(() => {
+        locked = false
+    }, 700)
 }
 
 function update() {
+    if(this.input.pointer1.isDown && !locked)
+        this.scene.start('game');
 
     if(this.cat.y > config.center.y-90 && direction > 0 ||
         this.cat.y < config.center.y-100 && direction < 0)

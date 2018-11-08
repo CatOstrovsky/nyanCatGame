@@ -7,7 +7,8 @@ var loaderSceneConfig = {
     preload: bootLoader,
     create: bootCreate,
     update: update
-};
+},
+locked = true;
 
 /**
  * Предвариетльная загрузка и кеширование ресурсов
@@ -57,6 +58,7 @@ function bootCreate ()
 
     this.time = new Date().getTime();
 
+    locked = true;
     setTimeout(() => {
       let text = this.add.text(config.center.x, config.center.y, 'Press enter to gone menu', {fontSize: "25px"}).setOrigin(.5,.5).setAlpha(0);
       this.tweens.add({
@@ -67,6 +69,8 @@ function bootCreate ()
         yoyo: true,
         repeat: Infinity
        });
+
+      locked = false;
     }, 2500)
 
     makeRain.call(this);
@@ -103,6 +107,10 @@ function makeRain() {
 }
 
 function update() {
+
+    if(this.input.pointer1.isDown && !locked)
+        this.scene.start('menu');
+
     if(this.time+5000 < new Date().getTime()) {
         this.time = new Date().getTime();
         this.cameras.main.flash();
