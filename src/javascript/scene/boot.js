@@ -35,6 +35,9 @@ function bootLoader ()
         onProgress(value);
     });
 
+    this.load.audio('bg', ['audio/bg.mp3']);
+    this.load.audio('coin', ['audio/coin.mp3']);
+
 }
 
 /**
@@ -64,6 +67,8 @@ function bootCreate ()
         frameRate: 5,
         yoyo: true
     });
+
+    this.sound.add('bg').play();
 
     this.scene.start('menu');
 

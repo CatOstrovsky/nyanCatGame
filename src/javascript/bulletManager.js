@@ -5,9 +5,11 @@ class Bullet {
 	constructor(ctx, x = 0, y = 0, speed = 900) {
 		this.ctx = ctx;
 
+		this.audio = this.ctx.sound.add('coin');
+
 		this.element =  this.ctx.add.sprite(x, y, 'bullet').play('fire');
 		this.element =  this.ctx.impact.add.body(x, y).setGameObject(this.element).setVelocityX(speed).setActiveCollision()
-		.setCollideCallback(this.onCollision, this, ctx);
+		.setCollideCallback((Bullet, B)=>{this.onCollision(Bullet, B)}, this, ctx);
 	}
 
 	onCollision(Bullet, B) {
@@ -20,6 +22,8 @@ class Bullet {
 	            Bullet.alpha = 0;
 	            Bullet.gameObject.destroy();
 	            Bullet.destroy();
+	            
+	            this.audio.play()
 	        }
 	    }
 	}
