@@ -68,7 +68,9 @@ function bootCreate ()
         yoyo: true
     });
 
-    this.sound.add('bg').play();
+    let audio = this.sound.add('bg');
+    audio.loop = true;
+    audio.play();
 
     this.scene.start('menu');
 
