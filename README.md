@@ -5,6 +5,8 @@ This is game "Nyan Cat". Based on Phaser 3!
 
 ![Game Screenshot](https://demo.web-panda.ru/screenshots/nyan_1.JPG)
 
+![QR](https://demo.web-panda.ru/qr/nyanx200.png)
+
 ### Requirements
 
 We need [Node.js](https://nodejs.org) to install and run scripts.
