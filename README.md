@@ -3,15 +3,15 @@
 This is game "Nyan Cat". Based on Phaser 3!
 [!!!DEMO HERE!!!](http://catostrovsky.ru/demo/nyan-cat/)
 
-![Game Screenshot](http://catostrovsky.ru/demo/screenshots/nyan_1.JPG)
+![nyan_1](https://user-images.githubusercontent.com/13501355/151674968-fa0a9823-6f77-4910-a87a-e5b7768c2c3d.JPG)
 
-![QR](http://catostrovsky.ru/demo/qr/nyanx200.png)
+![nyanx200](https://user-images.githubusercontent.com/13501355/151674980-24615284-731b-4232-a3a2-807dbe7c2bee.png)
 
 ### Requirements
 
 We need [Node.js](https://nodejs.org) to install and run scripts.
 
-![Game Screenshot](http://catostrovsky.ru/demo/screenshots/nyan_2.JPG)
+![nyan_2](https://user-images.githubusercontent.com/13501355/151674988-d7007e26-a793-4373-a254-5c1ba400abb9.JPG)
 
 ## Install and run
 
